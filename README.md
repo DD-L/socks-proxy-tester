@@ -35,14 +35,16 @@ $ ./socks-proxy-test.py socks5-proxy.examples.com 1080 5
 
 ###Screenshot:
 
-auto mode
+* auto mode
+
 ![auto](./doc/img/auto1.png)
 
 ![auto](./doc/img/auto2.png)
 
 ![auto](./doc/img/auto3.png)
 
-normal mode
+* normal mode
+
 ![normal](./doc/img/normal1.png)
 
 ###License
