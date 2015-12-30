@@ -37,6 +37,8 @@ $ ./socks-proxy-test.py socks5-proxy.examples.com 1080 5
 
 ###Screenshot:
 
+Tips: 'time-consuming' is in seconds
+
 * auto mode
 
 ![auto](./doc/img/auto1.png)
@@ -54,4 +56,5 @@ $ ./socks-proxy-test.py socks5-proxy.examples.com 1080 5
 ![normal](./doc/img/normal2.png)
 
 ###License
-MIT
+
+[MIT](./LICENSE)

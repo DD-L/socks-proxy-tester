@@ -66,7 +66,7 @@ class WorkThread (threading.Thread):
     # static
     entries_enable = list()
     threadLock     = threading.Lock()
-    progress       = 0
+    progress       = 1
     progressLock   = threading.Lock()
 
     def __init__(self, entry, counter, total_count):
