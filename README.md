@@ -45,9 +45,13 @@ $ ./socks-proxy-test.py socks5-proxy.examples.com 1080 5
 
 ![auto](./doc/img/auto3.png)
 
+![auto](./doc/img/auto4.png)
+
 * normal mode
 
 ![normal](./doc/img/normal1.png)
+
+![normal](./doc/img/normal2.png)
 
 ###License
 MIT
