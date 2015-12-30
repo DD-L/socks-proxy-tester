@@ -1,15 +1,15 @@
 #! /bin/env python
 # -*- coding:utf-8 -*-
 
-#  //pip/pip3 install Pysocks
-#  //pip install requests
+#  pip install PySocks
+#  pip install requests
 #  pip install requesocks
 
 import socks
 import socket
 import requests
 
-import requesocks
+import requesocks # python 2.7.x
 #import traceback
 import sys
 import timeit

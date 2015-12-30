@@ -4,8 +4,10 @@ SOCKS v4/v5 Proxy Tester
 
 
 ###Requirements:
-* >= python 2.7. (python 3.x 暂时未做验证)
-* requesocks. (pip install requesocks)
+* Python 2.7.x
+* PySocks         (pip install PySocks)
+* requests        (pip install requests)
+* requesocks      (pip install requesocks)
 
 ###Usage:
 ```shell
