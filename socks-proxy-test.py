@@ -12,7 +12,7 @@ import requests
 import requesocks # python 2.7.x
 #import traceback
 import sys
-import timeit
+#import timeit
 
 import urllib  
 import urllib2
@@ -38,7 +38,7 @@ class WhySpider:
             my_request = urllib2.Request(url = get_url, headers = self.headers)
             result = self.opener.open(my_request).read()
         except Exception as e:
-            print('Exception : ' + e)
+            print('Exception: ' + str(e))
         return result
 
     def send_post(self, post_url, post_data):
@@ -48,7 +48,7 @@ class WhySpider:
                     data = post_data, headers = self.headers)
             result = self.opener.open(my_request).read()
         except Exception as e:
-            print ('Exception : ' + e)
+            print ('Exception: ' + str(e))
         return result
     
     def set_computer(self):
@@ -123,11 +123,9 @@ class WorkThread (threading.Thread):
              #resp.status_code, resp.headers['content-type'], resp.text
 
         try:
-            t = timeit.Timer(requesocks_test)
-            #ret = str(t.timeit(2))
-            ret = t.repeat(3, 1)
-            for k in range(0, len(ret)):
-                ret[k] = round(ret[k], 3)
+            t = SPT_Timer(self.printr, current)
+            t.action(requesocks_test, 3, 4)
+            ret = t.get_result_format(2)
 
             self.entry['time_consuming'] = str(ret)
             
@@ -142,14 +140,93 @@ class WorkThread (threading.Thread):
             self.printr(current + str(self.entry))
             return 0
         except Exception as e:
-            self.printr('[Error] ' + current + str(e))
+            blank_placeholder = '            '
+            self.printr('[Warning] ' + current + str(e) + blank_placeholder)
             return 2
 
+#import os
+#def get_module():
+#    def main_module_name():
+#        mod = sys.modules['__main__']
+#        file = getattr(mod, '__file__', None)
+#        return file and os.path.splitext(os.path.basename(file))[0] 
+#
+#    def modname(fvars):
+#        file, name = fvars.get('__file__'), fvars.get('__name__') 
+#        if file is None or name is None: 
+#            return None
+#        if name == '__main__':
+#            name = main_module_name()
+#        return name
+#
+#    return modname(globals())
 
 def print_safe(msg):
     sys.stdout.write(msg)
     sys.stdout.write('\n')
     sys.stdout.flush()
+
+class SPT_Timer:
+    def __init__(self, printv = print_safe, pre_str = ''):
+        self.counter = 0
+        self.printv  = printv
+        self.pre_str = pre_str
+        self.result  = list()
+        self.timeout = 'timeout'
+    def action(self, expr, num = 3, try_max = 10):
+        if (self.counter >= num):
+            return
+
+        for loop in range(self.counter, num):
+            start = time.time()
+            try:
+                expr()
+                consuming = time.time() - start
+                self.counter = self.counter + 1
+                self.printv(self.pre_str + 'Successful connection: '\
+                        + str(self.counter) + ' times, time-consuming: '\
+                        + str(consuming) + ' s')
+                self.result.append(consuming)
+                if (self.counter >= num):
+                    break
+            except Exception as e:
+                e = str(e)
+                if 'NoneType' in e:
+                    e = self.timeout
+                if len(self.pre_str + e) <= 40:
+                    blank_placeholder = '                            '
+                else:
+                    blank_placeholder = ''
+                self.printv(self.pre_str + e + blank_placeholder)
+                self.result.append(self.timeout)
+                if (len(self.result) < try_max):
+                    self.printv(self.pre_str + 'one more try' \
+                            + blank_placeholder)
+                    self.action(expr, num, try_max)
+                break
+
+    def get_result(self):
+        return self.result
+
+    def get_result_format(self, valid = 2, max_count = 3):
+        valid_counter = 0
+        ret = list()
+        for v in self.result:
+            if isinstance(v, float):
+                valid_counter = valid_counter + 1
+                ret.append(round(v, 3))
+
+        if valid_counter < valid:
+            raise Exception('the number of valid values is less than '\
+                    + str(valid))
+        
+        if valid_counter < max_count:
+            for i in range(0, max_count - valid_counter):
+                ret.append(self.timeout)
+
+        return ret
+
+
 
 def requests_test():
     requests.get('http://baidu.com', timeout = 20)
@@ -170,25 +247,29 @@ def socks_proxy_test(host, port, version = 5, Country = 'unknown'):
         return 3
     socket.socket = socks.socksocket
     try:
-        t = timeit.Timer('requests_test()', \
-                'from __main__ import requests_test')
-        #ret = str(t.timeit(2))
-        ret = str(t.repeat(3, 1))
+        t = SPT_Timer()
+        t.action(requests_test)
+        ret = t.get_result()
         print('socks' + str(version) + ': ' + host + ':' + str(port)\
                 + ' ' + Country)
-        print('time consuming (3 times): ' + ret)
+        print('time consuming (' + str(len(ret)) + ' times): ' + str(ret))
         return 0
     except Exception as e:
         print(e)
         return 2
 
-
 def auto(max_jobs):
+    default_timeout = 20
+    socket.setdefaulttimeout(default_timeout)
+    print('[info] Getting the list of SOCKS proxy sites from '\
+            'http://socks-proxy.net, please be patient...')
     my_spider = WhySpider()
     response = my_spider.send_get('http://socks-proxy.net/')
+    if response == '':
+        print('[Error] please try again later')
+        exit(-1) 
 
     #print(response)
-    print('')
     pattern = re.compile('<tr><td>(\d{1,3}.\d{1,3}.\d{1,3}.\d{1,3})</td>'\
             '<td>(\d+)</td><td>([A-Z]{2})</td><td>([a-zA-Z,\s]+)</td>'\
             '<td>([Ss]ocks[45])</td><td>(\w+)</td><td>(\w+)</td>'\
