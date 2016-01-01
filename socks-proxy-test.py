@@ -193,11 +193,12 @@ class SPT_Timer:
                 e = str(e)
                 if 'NoneType' in e:
                     e = self.timeout
+                blank_placeholder = '                            '
                 if len(self.pre_str + e) <= 40:
-                    blank_placeholder = '                            '
+                    self.printv(self.pre_str + e + blank_placeholder)
                 else:
-                    blank_placeholder = ''
-                self.printv(self.pre_str + e + blank_placeholder)
+                    self.printv(self.pre_str + e)
+
                 self.result.append(self.timeout)
                 if (len(self.result) < try_max):
                     self.printv(self.pre_str + 'one more try' \
