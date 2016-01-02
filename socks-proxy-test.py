@@ -22,6 +22,7 @@ import string
 
 import threading
 import time
+import version
 
 class WhySpider:
     def __init__(self):
@@ -335,30 +336,66 @@ def auto(max_jobs):
         print(line1)
     else:
         print('[warning]No available entry was found, please try again later.')
-        
 
-if __name__ == "__main__":
-    argv_len = len(sys.argv)
-    if argv_len == 4:
-        host = sys.argv[1]
-        port = sys.argv[2]
-        version = sys.argv[3]
-        socks_proxy_test(host, port, version)
-    elif argv_len == 2 and sys.argv[1] == 'auto':
-        default_jobs = 40
-        auto(default_jobs)
-    elif argv_len == 3 and sys.argv[1] == 'auto' \
-            and sys.argv[2].isdigit() and int(sys.argv[2]) > 0:
-        auto(sys.argv[2])
+
+def show_version():
+    v = version.script_name + ' v' + version.__version__
+    print(v)
+
+def check_upgrade():
+
+    releases = 'https://github.com/DD-L/socks-proxy-tester/releases'
+    upgrade_check_default = 'https://raw.githubusercontent.com/DD-L'\
+            '/socks-proxy-tester/master/version.py'
+    if version.upgrade_check == '' or version.upgrade_check == None:
+        upgrade_check = upgrade_check_default 
     else:
+        upgrade_check = version.upgrade_check
+
+    default_timeout = 10
+    socket.setdefaulttimeout(default_timeout)
+    print('[info] Checking for upgrade from ' + upgrade_check + \
+            ', please be patient...')
+        
+    version_spider = WhySpider()
+    response = version_spider.send_get(upgrade_check_default)
+    if response == '':
+        print('[Error] please try again later')
+        exit(-1)
+    exec(response)
+    if cmp_version(version.__version__, __version__) < 0:
+        v = script_name + ' v' + __version__
+        print('Find a new release: ' + v + ', Please go to ' + releases \
+                + ' to download the new version')
+    else:
+        print('No new releases')
+
+
+def cmp_version(v1, v2):
+    assert(isinstance(v1, str))
+    assert(isinstance(v2, str))
+    ver1, ver2 = v1.split('.'), v2.split('.')
+    loop = min(len(ver1), len(ver2))
+    for i in range(0, loop):
+        try:
+            vs = int(ver1[i]) - int(ver2[i])
+        except ValueError:
+            vs = cmp(ver1[i], ver2[i])
+        if vs != 0:
+            return vs 
+    return 0
+
+
+def usage():
         print('Usage:')
         print('\t' + sys.argv[0] + ' auto [<max-jobs>]')
         print('\t' + sys.argv[0] + ' <host> <port> <socks-version>')
-        #print('Option:')
-        #print('  xxxx')
-        #print('  xxxx')
-        #print('  xxxx')
-        #print('  xxxx')
+        print('\t' + sys.argv[0] + ' <option>')
+        print('Option:')
+        print('  -h, --help         Print this message and exit')
+        print('  -v, --version      Show version')
+        print('  --check-upgrade    Check for upgrade')
+        print('')
         print('Examples:')
         print('')
         print('$ # Automatically get socks proxy entries from \
@@ -379,5 +416,31 @@ http://socks-proxy.net/ ')
         print('')
         print('$ # Verify if socks5://socks5-proxy.examples.com is available.')
         print('$ ' + sys.argv[0] + ' socks5-proxy.examples.com 1080 5')
+
+if __name__ == "__main__":
+    argv_len = len(sys.argv)
+    if argv_len == 4:
+        host = sys.argv[1]
+        port = sys.argv[2]
+        version = sys.argv[3]
+        socks_proxy_test(host, port, version)
+    elif argv_len == 3 and sys.argv[1] == 'auto' \
+            and sys.argv[2].isdigit() and int(sys.argv[2]) > 0:
+        auto(sys.argv[2])
+    elif argv_len == 2:
+        if sys.argv[1] == 'auto':
+            default_jobs = 40
+            auto(default_jobs)
+        elif sys.argv[1] == '-v' or sys.argv[1] == '--version':
+            show_version()
+        elif sys.argv[1] == '--check-upgrade':
+            check_upgrade()
+        else:
+            usage()
+            exit(1)
+    else:
+        usage()
         exit(1)
+
+    exit(0)
         

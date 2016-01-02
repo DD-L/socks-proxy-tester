@@ -2,7 +2,6 @@
 
 SOCKS v4/v5 Proxy Tester
 
-
 ###Requirements:
 * Python 2.7.x
 * PySocks         (pip install PySocks)
