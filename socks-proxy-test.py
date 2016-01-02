@@ -424,6 +424,9 @@ if __name__ == "__main__":
         port = sys.argv[2]
         version = sys.argv[3]
         socks_proxy_test(host, port, version)
+    elif argv_len == 3 and sys.argv[1] == 'auto' \
+            and sys.argv[2].isdigit() and int(sys.argv[2]) > 0:
+        auto(sys.argv[2])
     elif argv_len == 2:
         if sys.argv[1] == 'auto':
             default_jobs = 40
@@ -435,10 +438,6 @@ if __name__ == "__main__":
         else:
             usage()
             exit(1)
-    elif argv_len == 3 and sys.argv[1] == 'auto' \
-            and sys.argv[2].isdigit() and int(sys.argv[2]) > 0:
-        auto(sys.argv[2])
-
     else:
         usage()
         exit(1)
