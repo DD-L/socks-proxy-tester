@@ -365,10 +365,10 @@ def check_upgrade():
     exec(response)
     if cmp_version(version.__version__, __version__) < 0:
         v = script_name + ' v' + __version__
-        print('Find a new release: ' + v + ', Please go to ' + releases \
+        print('\nFind a new release: ' + v + ', Please go to ' + releases \
                 + ' to download the new version')
     else:
-        print('No new releases')
+        print('\nNo new release')
 
 
 def cmp_version(v1, v2):
