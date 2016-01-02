@@ -13,7 +13,6 @@ SOCKS v4/v5 Proxy Tester
 ```shell
     ./socks-proxy-test.py auto [<max-jobs>]
     ./socks-proxy-test.py <host> <port> <socks-version>
-    ./socks-proxy-test.py <option>
 ```
 
 ###Examples:
