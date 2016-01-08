@@ -4,7 +4,8 @@ language: python
     - 2.7
 
 install:
-    - if [[ $TRAVIS_PYTHON_VERSION == 2* ]]; then travis_retry pip install PySocks requests requesocks; fi
+    #- if [[ $TRAVIS_PYTHON_VERSION == 2* ]]; then travis_retry pip install PySocks requests requesocks; fi
+    - pip install PySocks requests requesocks
 
 script:
     - python socks-proxy-test.py auto 1000
