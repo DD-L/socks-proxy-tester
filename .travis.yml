@@ -9,3 +9,5 @@ install:
 
 script:
     - python socks-proxy-test.py auto 1000
+
+sudo: required
