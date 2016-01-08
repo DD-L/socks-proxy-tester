@@ -8,11 +8,10 @@ install:
     #- pip install --upgrade pip
     - sudo pip install PySocks
     #- sudo pip install SocksiPy-branch
-    - pip install requests
-    - pip install requesocks
+    - sudo pip install requests
+    - sudo pip install requesocks
 
 script:
-    #- sudo python socks-proxy-test.py auto 1000
-    - python socks-proxy-test.py auto 1000
+    - sudo python socks-proxy-test.py auto 1000
 
 sudo: required
