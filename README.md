@@ -1,4 +1,4 @@
-# socks-proxy-tester
+# socks-proxy-tester [![Build Status](https://travis-ci.org/DD-L/socks-proxy-tester.svg?branch=travis_ci)](https://travis-ci.org/DD-L/socks-proxy-tester)
 
 SOCKS v4/v5 Proxy Tester
 
