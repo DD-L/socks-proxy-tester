@@ -5,15 +5,14 @@ language: python
 
 install:
     #- if [[ $TRAVIS_PYTHON_VERSION == 2* ]]; then travis_retry pip install PySocks requests requesocks; fi
-    #- pip install PySocks requests requesocks
     #- pip install --upgrade pip
     - sudo pip install PySocks
-    - sudo pip install SocksiPy-branch
-    #- sudo apt-get install python-socksipy
-    - sudo pip install requests
-    - sudo pip install requesocks
+    #- sudo pip install SocksiPy-branch
+    - pip install requests
+    - pip install requesocks
 
 script:
-    - sudo python socks-proxy-test.py auto 1000
+    #- sudo python socks-proxy-test.py auto 1000
+    - python socks-proxy-test.py auto 1000
 
 sudo: required
