@@ -8,6 +8,7 @@ install:
     #- pip install PySocks requests requesocks
     #- pip install --upgrade pip
     - sudo pip install PySocks
+    - sudo pip install SocksiPy
     - sudo pip install requests
     - sudo pip install requesocks
 
