@@ -14,7 +14,7 @@ import requesocks # python 2.7.x
 import sys
 #import timeit
 
-import urllib  
+import urllib
 import urllib2
 import cookielib
 import re
@@ -51,17 +51,17 @@ class WhySpider:
         except Exception as e:
             print ('Exception: ' + str(e))
         return result
-    
+
     def set_computer(self):
         user_agent = 'Mozilla/5.0 (Windows NT 6.3; WOW64; rv:28.0)'\
                 ' Gecko/20100101 Firefox/28.0'
-        self.headers = { 'User-Agent' : user_agent }    
+        self.headers = { 'User-Agent' : user_agent }
 
     def set_mobile(self):
         user_agent = 'Mozilla/5.0 (iPhone; CPU iPhone OS 6_0 like Mac OS X)'\
                 ' AppleWebKit/536.26 (KHTML, like Gecko) Version/6.0'\
                 ' Mobile/10A403 Safari/8536.25'
-        self.headers = { 'User-Agent' : user_agent }    
+        self.headers = { 'User-Agent' : user_agent }
 
 class WorkThread (threading.Thread):
     # static
@@ -79,7 +79,7 @@ class WorkThread (threading.Thread):
 
     def run(self):
         current = str(self.counter) + '/' + str(self.total_count)
-        self.printr('------------*- Starting ['+current+'] -*--------------') 
+        self.printr('------------*- Starting ['+current+'] -*--------------')
         self.socks_proxy_test_entry()
         self.printr('************** Finished ['+current+'] ****************')
         self.__class__.progressLock.acquire()
@@ -92,7 +92,7 @@ class WorkThread (threading.Thread):
 
     def printr(self, msg):
         threads_count = 'jobs: '+ str(threading.activeCount()) + ', '
-        progress = 'Completed: ' + self.get_progress() 
+        progress = 'Completed: ' + self.get_progress()
         if msg == '':
             sys.stdout.write('\r' + threads_count + progress)
         else:
@@ -109,9 +109,9 @@ class WorkThread (threading.Thread):
                 'host = %s, port = %s, protocol = socks%s, Country = %s'\
                 % (host, port, version, Country))
         if   version == 4:
-            proxy = 'socks4://' + self.entry['host'] + ':' +self.entry['port'] 
+            proxy = 'socks4://' + self.entry['host'] + ':' +self.entry['port']
         elif version == 5:
-            proxy = 'socks5://' + self.entry['host'] + ':' +self.entry['port'] 
+            proxy = 'socks5://' + self.entry['host'] + ':' +self.entry['port']
         else:
             self.printr(current + 'bad socks-proxy version')
             return 3
@@ -129,7 +129,7 @@ class WorkThread (threading.Thread):
             ret = t.get_result_format(2)
 
             self.entry['time_consuming'] = str(ret)
-            
+
             #可选的timeout参数不填时将一直阻塞直到获得锁定
             self.__class__.threadLock.acquire()
             self.__class__.entries_enable.append(self.entry)
@@ -150,11 +150,11 @@ class WorkThread (threading.Thread):
 #    def main_module_name():
 #        mod = sys.modules['__main__']
 #        file = getattr(mod, '__file__', None)
-#        return file and os.path.splitext(os.path.basename(file))[0] 
+#        return file and os.path.splitext(os.path.basename(file))[0]
 #
 #    def modname(fvars):
-#        file, name = fvars.get('__file__'), fvars.get('__name__') 
-#        if file is None or name is None: 
+#        file, name = fvars.get('__file__'), fvars.get('__name__')
+#        if file is None or name is None:
 #            return None
 #        if name == '__main__':
 #            name = main_module_name()
@@ -202,7 +202,8 @@ class SPT_Timer:
 
                 self.result.append(self.timeout)
                 if (len(self.result) < try_max):
-                    self.printv(self.pre_str + 'one more try' \
+                    #self.printv(self.pre_str + 'one more try' \
+                    self.printv(self.pre_str + 'try again...' \
                             + blank_placeholder)
                     self.action(expr, num, try_max)
                 break
@@ -221,7 +222,7 @@ class SPT_Timer:
         if valid_counter < valid:
             raise Exception('the number of valid values is less than '\
                     + str(valid))
-        
+
         if valid_counter < max_count:
             for i in range(0, max_count - valid_counter):
                 ret.append(self.timeout)
@@ -269,7 +270,7 @@ def auto(max_jobs):
     response = my_spider.send_get('http://socks-proxy.net/')
     if response == '':
         print('[Error] please try again later')
-        exit(-1) 
+        exit(-1)
 
     #print(response)
     pattern = re.compile('<tr><td>(\d{1,3}.\d{1,3}.\d{1,3}.\d{1,3})</td>'\
@@ -277,7 +278,7 @@ def auto(max_jobs):
             '<td>([Ss]ocks[45])</td><td>(\w+)</td><td>(\w+)</td>'\
             '<td>(\d{1,3}[^<]+)</td></tr>', re.S)
     items = re.findall(pattern, response)
-    entries = list() 
+    entries = list()
     for item in items:
         entry = {'host': item[0], 'port': item[1], 'code': item[2], \
                 'country': item[3], 'version': item[4], 'anonymity': item[5],\
@@ -348,7 +349,7 @@ def check_upgrade():
     upgrade_check_default = 'https://raw.githubusercontent.com/DD-L'\
             '/socks-proxy-tester/master/version.py'
     if version.upgrade_check == '' or version.upgrade_check == None:
-        upgrade_check = upgrade_check_default 
+        upgrade_check = upgrade_check_default
     else:
         upgrade_check = version.upgrade_check
 
@@ -356,7 +357,7 @@ def check_upgrade():
     socket.setdefaulttimeout(default_timeout)
     print('[info] Checking for upgrade from ' + upgrade_check + \
             ', please be patient...')
-        
+
     version_spider = WhySpider()
     response = version_spider.send_get(upgrade_check_default)
     if response == '':
@@ -382,7 +383,7 @@ def cmp_version(v1, v2):
         except ValueError:
             vs = cmp(ver1[i], ver2[i])
         if vs != 0:
-            return vs 
+            return vs
     return 0
 
 
@@ -443,4 +444,4 @@ if __name__ == "__main__":
         exit(1)
 
     exit(0)
-        
+

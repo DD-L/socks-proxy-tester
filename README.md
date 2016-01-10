@@ -22,8 +22,8 @@ $ # and, Identify the available entries with default 40 jobs.
 $ ./socks-proxy-test.py auto
 
 $ # Automatically get socks proxy entries from http://socks-proxy.net/
-$ # and, Identify the available entries with 38 jobs.
-$ ./socks-proxy-test.py auto 38
+$ # and, Identify the available entries with 80 jobs.
+$ ./socks-proxy-test.py auto 80
 
 $ # Verify if socks4://127.0.0.1:1080 is available.
 $ ./socks-proxy-test.py 127.0.0.1 1080 4
