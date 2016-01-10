@@ -4,15 +4,18 @@ SOCKS v4/v5 Proxy Tester
 
 ###Requirements:
 * Python 2.7.x
-* PySocks         (pip install PySocks)
-* requests        (pip install requests)
-* requesocks      (pip install requesocks)
+* PySocks         
+	`pip install PySocks`
+* requests        
+	`pip install requests`
+* requesocks      
+	`pip install requesocks`
 
 ###Usage:
 ```shell
     ./socks-proxy-test.py auto [<max-jobs>]
     ./socks-proxy-test.py <host> <port> <socks-version>
-    ./socks-proxy-test.py <option>
+    ./socks-proxy-test.py [<option>]
 ```
 
 ###Examples:
@@ -33,6 +36,16 @@ $ ./socks-proxy-test.py 127.0.0.1 1080 5
 
 $ # Verify if socks5://socks5-proxy.examples.com is available.
 $ ./socks-proxy-test.py socks5-proxy.examples.com 1080 5
+
+$ # Show help
+$ ./socks-proxy-test.py --help
+
+$ # Show version
+$ ./socks-proxy-test.py --version
+
+$ # Check for upgrade
+$ ./socks-proxy-test.py --check-upgrade
+
 ```
 
 ###Screenshot:
