@@ -1,7 +1,6 @@
-# socks-proxy-tester
+# socks-proxy-tester  [![Build Status](https://travis-ci.org/DD-L/socks-proxy-tester.svg?branch=master)](https://travis-ci.org/DD-L/socks-proxy-tester) [![Join the chat at https://gitter.im/DD-L/socks-proxy-tester](https://badges.gitter.im/DD-L/socks-proxy-tester.svg)](https://gitter.im/DD-L/socks-proxy-tester?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 SOCKS v4/v5 Proxy Tester
-
 
 ###Requirements:
 * Python 2.7.x
@@ -13,6 +12,7 @@ SOCKS v4/v5 Proxy Tester
 ```shell
     ./socks-proxy-test.py auto [<max-jobs>]
     ./socks-proxy-test.py <host> <port> <socks-version>
+    ./socks-proxy-test.py <option>
 ```
 
 ###Examples:
