@@ -203,7 +203,7 @@ class SPT_Timer:
                 self.result.append(self.timeout)
                 if (len(self.result) < try_max):
                     #self.printv(self.pre_str + 'one more try' \
-                    self.printv(self.pre_str + 'try again...' \
+                    self.printv(self.pre_str + 'Trying again...' \
                             + blank_placeholder)
                     self.action(expr, num, try_max)
                 break
